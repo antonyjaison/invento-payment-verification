@@ -1,9 +1,11 @@
-import './App.css'
+import "./globals.css";
+
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <>
-      <p>Hello</p>
+      <HomePage />
     </>
   );
 }
