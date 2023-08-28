@@ -1,6 +1,6 @@
 import "../styles/receiptSection.css";
 import { animated, useSpring } from "@react-spring/web";
-import { MoonLoader } from "react-spinners";
+import { MoonLoader, ClipLoader } from "react-spinners";
 import { useVerifyOrderMutation } from "../features/apiSlice";
 import { useDispatch } from "react-redux";
 import { removeVerifiedData } from "../features/unverifiedSlice";
@@ -13,12 +13,15 @@ const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
     setShowReceiptSection(false);
   };
 
-  const verifyItem = (id) => {
-    console.log(isVerifying)
+  const verifyItem = async (id) => {
     console.log(id);
-    verifyOrder(id).then(() => {
+    const res = await verifyOrder(id);
+    if (!(res.data === undefined)) {
       dispatch(removeVerifiedData(id));
-    });
+      setShowReceiptSection(false);
+    } else {
+      console.log("noo");
+    }
   };
 
   const animateStyles = useSpring({
@@ -57,9 +60,15 @@ const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
             onClick={() => verifyItem(orderId)}
             className="btn receipt_transparent_btn"
           >
-            Verify Order
+            {!isVerifying ? (
+              "Verify Order"
+            ) : (
+              <ClipLoader color="#6f6f6f" size={30} />
+            )}
           </button>
-          <button className="btn receipt_white_btn">Decline Order</button>
+          <button disabled className="btn receipt_white_btn">
+            Decline Order
+          </button>
         </animated.div>
         <div></div>
       </div>
