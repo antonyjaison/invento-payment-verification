@@ -24,7 +24,7 @@ p,h1,h2,h3{
 
 .btn{
   border: none;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   padding: 8px 0;
   cursor: pointer;
 }
@@ -34,7 +34,7 @@ p,h1,h2,h3{
   transition: 0.1s;
 }
 .dark_btn:hover{
-  background-color: transparent;
+  background-color: #fff;
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
 }

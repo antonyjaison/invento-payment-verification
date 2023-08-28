@@ -16,12 +16,11 @@ const Card = ({ setShowReceiptSection, data, setImageUrl, setOrderId }) => {
   };
 
   const verifyItem = async (id) => {
-    console.log(data);
     const res = await verifyOrder(id);
     if (!(res.data === undefined)) {
       dispatch(removeVerifiedData(id));
     } else {
-      console.log("noo");
+      alert("Can't verify")
     }
   };
   return (

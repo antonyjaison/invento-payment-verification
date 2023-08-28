@@ -2,8 +2,8 @@ import "../styles/receiptSection.css";
 import { animated, useSpring } from "@react-spring/web";
 import { MoonLoader, ClipLoader } from "react-spinners";
 import { useVerifyOrderMutation } from "../features/apiSlice";
-import { useDispatch } from "react-redux";
 import { removeVerifiedData } from "../features/unverifiedSlice";
+import { useDispatch } from "react-redux";
 
 const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
   const dispatch = useDispatch();
@@ -14,13 +14,12 @@ const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
   };
 
   const verifyItem = async (id) => {
-    console.log(id);
     const res = await verifyOrder(id);
     if (!(res.data === undefined)) {
       dispatch(removeVerifiedData(id));
       setShowReceiptSection(false);
     } else {
-      console.log("noo");
+      alert("Can't Verify");
     }
   };
 
@@ -41,8 +40,6 @@ const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
       transform: "scale(1)",
     },
   });
-
-  console.log(!imageUrl);
 
   return (
     <animated.div style={animateStyles} className="receipt_section_wrapper">

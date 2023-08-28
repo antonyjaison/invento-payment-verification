@@ -8,11 +8,12 @@ import MoonLoader from "react-spinners/MoonLoader";
 import { useNavigate } from "react-router-dom";
 import "../styles/homePage.css";
 import eventLabels from "../events";
+import { getUser } from "../utils/user";
 
 const HomePage = () => {
   const [showReceiptSection, setShowReceiptSection] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-  const [orderId, setOrderId] = useState("")
+  const [orderId, setOrderId] = useState("");
   const [selectedEvent, setSelectedEvent] = useState({
     name: "",
     id: "",
@@ -48,6 +49,13 @@ const HomePage = () => {
   const unverifiedData = useSelector(
     (state) => state.unverifiedSlice.filterData
   );
+  const username = getUser();
+
+  useEffect(() => {
+    if (!username) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <>
@@ -65,20 +73,21 @@ const HomePage = () => {
         </div>
         <div className="home_body">
           <nav>
-            <p>Hi, john@123</p>
-            <p onClick={logout}>
-              Logout
-              <img src="/icons/logout.svg" alt="" />
-            </p>
+            <h1>{selectedEvent.name}</h1>
+            <div className="username_section">
+              <p>Hi, {username}</p>
+              <p onClick={logout}>
+                Logout
+                <img src="/icons/logout.svg" alt="" />
+              </p>
+            </div>
           </nav>
-
-          <h1>{selectedEvent.name}</h1>
 
           <div className="cards_section">
             {!isLoading ? (
               unverifiedData.length === 0 ? (
                 <>
-                <h3>No orders!</h3>
+                  <h3>No orders!</h3>
                 </>
               ) : (
                 <>

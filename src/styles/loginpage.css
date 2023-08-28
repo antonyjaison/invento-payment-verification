@@ -9,8 +9,8 @@
     width: 400px;
     height: fit-content;
     padding: 50px 30px;
-    border-radius: 5px;
-    border: 1px solid var(--primary-color);
+    /* border-radius: 5px; */
+    border: 1px solid var(--secondary-color);
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -19,7 +19,6 @@
 .login_form input,button{
     width: 100%;
     height: 45px;
-    border-radius: 5px;
     border: 1px solid var(--secondary-color);
     padding-left: 10px;
     color: var(--primary-color);

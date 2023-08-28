@@ -13,19 +13,21 @@ import "./globals.css";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import { getUser } from "./utils/user";
+import { useEffect, useState } from "react";
 
 function App() {
-  const user = getUser();
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    setUser(getUser());
+  }, []);
+  console.log(user);
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route
-          path="/login"
-          element={user.length > 0 ? <Navigate to="/" /> : <LoginPage />}
-        />
+        <Route path="/login" element={<LoginPage />} />
         <Route
           path="/"
-          element={user.length > 0 ? <HomePage /> : <Navigate to="login" />}
+          element={<HomePage />}
         />
       </>
     )

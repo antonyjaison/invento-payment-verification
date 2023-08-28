@@ -1,7 +1,7 @@
 import "../styles/loginpage.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../utils/user";
+import { setUser,getUser } from "../utils/user";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -30,13 +30,22 @@ const LoginPage = () => {
       passwordRef.current.style.outline = "1px solid red";
     }
 
-    if(username === import.meta.env.VITE_USERNAME && password === import.meta.env.VITE_PASSWORD){
-        setUser(username);
-        navigate('/')
+    if (
+      username === import.meta.env.VITE_USERNAME &&
+      password === import.meta.env.VITE_PASSWORD
+    ) {
+      setUser(username);
+      navigate("/");
     }
-
-
   };
+
+  useEffect(() => {
+    const user = getUser();
+    if(user){
+      navigate("/")
+    }
+  },[])
+  
   return (
     <main className="login_wrapper">
       <form className="login_form">
