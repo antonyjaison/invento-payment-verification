@@ -1,45 +1,53 @@
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setData, filterData } from "../features/unverifiedSlice";
+import { useGetUnverifiedOrdersQuery } from "../features/apiSlice";
 import Card from "../components/Card";
 import RecieptSection from "../components/RecieptSection";
-import "../styles/homePage.css";
-import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { useGetUnverifiedOrdersQuery } from "../features/apiSlice";
-import { setData } from "../features/unverifiedSlice";
 import MoonLoader from "react-spinners/MoonLoader";
+import { useNavigate } from "react-router-dom";
+import "../styles/homePage.css";
+import eventLabels from "../events";
 
 const HomePage = () => {
   const [showReceiptSection, setShowReceiptSection] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState({
-    name: "Techfest",
-    id: "techfest",
-  });
   const [imageUrl, setImageUrl] = useState("");
+  const [orderId, setOrderId] = useState("")
+  const [selectedEvent, setSelectedEvent] = useState({
+    name: "",
+    id: "",
+  });
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const selectEvent = (event) => {
     setSelectedEvent(event);
-    console.log(selectedEvent);
   };
-  const eventLabels = [
-    { name: "Techfest", id: "techfest" },
-    { name: "Saptha", id: "saptha" },
-    { name: "Taksathi", id: "taksathi" },
-    { name: "Workshop", id: "workshop" },
-    { name: "Competition", id: "competition" },
-    { name: "Solo", id: "solo" },
-    { name: "Exhibition", id: "exhibition" },
-    { name: "General event", id: "general-event" },
-    { name: "Spotlight", id: "spotlight" },
-    { name: "Competition", id: "competition-2" },
-    { name: "preEvent", id: "preevent" },
-  ];
 
-  const dispatch = useDispatch();
-  const { data, isLoading, error, isError } = useGetUnverifiedOrdersQuery();
+  const logout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  const { data, isLoading } = useGetUnverifiedOrdersQuery();
 
   useEffect(() => {
-    dispatch(setData(data?.orders));
-  }, [dispatch, isLoading]);
+    if (data) {
+      dispatch(setData(data.orders));
+      setSelectedEvent({
+        name: "Tech Fest",
+        id: "techfest",
+      });
+    }
+  }, [dispatch, data]);
 
-  const unverifiedData = useSelector((state) => state.unverifiedSlice);
+  useEffect(() => {
+    dispatch(filterData(selectedEvent));
+  }, [dispatch, selectedEvent]);
+
+  const unverifiedData = useSelector(
+    (state) => state.unverifiedSlice.filterData
+  );
 
   return (
     <>
@@ -58,7 +66,7 @@ const HomePage = () => {
         <div className="home_body">
           <nav>
             <p>Hi, john@123</p>
-            <p>
+            <p onClick={logout}>
               Logout
               <img src="/icons/logout.svg" alt="" />
             </p>
@@ -67,25 +75,37 @@ const HomePage = () => {
           <h1>{selectedEvent.name}</h1>
 
           <div className="cards_section">
-            {unverifiedData ? (
-              unverifiedData.map((data) => {
-                return (
-                  <Card
-                    key={data._id}
-                    data={data}
-                    setImageUrl={setImageUrl}
-                    setShowReceiptSection={setShowReceiptSection}
-                  />
-                );
-              })
+            {!isLoading ? (
+              unverifiedData.length === 0 ? (
+                <>
+                <h3>No orders!</h3>
+                </>
+              ) : (
+                <>
+                  {unverifiedData.map((data) => {
+                    return (
+                      <Card
+                        setOrderId={setOrderId}
+                        key={data._id}
+                        data={data}
+                        setImageUrl={setImageUrl}
+                        setShowReceiptSection={setShowReceiptSection}
+                      />
+                    );
+                  })}
+                </>
+              )
             ) : (
-              <MoonLoader color="#282828" size={50} />
+              <div className="cards_loading">
+                <MoonLoader color="#282828" size={50} />
+              </div>
             )}
           </div>
         </div>
       </main>
       {showReceiptSection && (
         <RecieptSection
+          orderId={orderId}
           imageUrl={imageUrl}
           setShowReceiptSection={setShowReceiptSection}
         />

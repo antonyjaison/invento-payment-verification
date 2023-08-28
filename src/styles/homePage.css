@@ -61,8 +61,15 @@ nav p {
     overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     gap: 20px;
+}
+.cards_loading{
+    width: 100%;
+    height: calc(100vh - 200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .cards_section::-webkit-scrollbar{
     appearance: none;

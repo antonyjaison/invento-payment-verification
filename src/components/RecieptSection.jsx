@@ -1,10 +1,24 @@
 import "../styles/receiptSection.css";
 import { animated, useSpring } from "@react-spring/web";
 import { MoonLoader } from "react-spinners";
+import { useVerifyOrderMutation } from "../features/apiSlice";
+import { useDispatch } from "react-redux";
+import { removeVerifiedData } from "../features/unverifiedSlice";
 
-const RecieptSection = ({ setShowReceiptSection, imageUrl }) => {
+const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
+  const dispatch = useDispatch();
+  const [verifyOrder, { isLoading: isVerifying }] = useVerifyOrderMutation();
+
   const closeReceiptSection = () => {
     setShowReceiptSection(false);
+  };
+
+  const verifyItem = (id) => {
+    console.log(isVerifying)
+    console.log(id);
+    verifyOrder(id).then(() => {
+      dispatch(removeVerifiedData(id));
+    });
   };
 
   const animateStyles = useSpring({
@@ -25,6 +39,8 @@ const RecieptSection = ({ setShowReceiptSection, imageUrl }) => {
     },
   });
 
+  console.log(!imageUrl);
+
   return (
     <animated.div style={animateStyles} className="receipt_section_wrapper">
       <div className="img_section">
@@ -37,7 +53,12 @@ const RecieptSection = ({ setShowReceiptSection, imageUrl }) => {
       <div className="button_section">
         <img onClick={closeReceiptSection} src="/icons/close.svg" alt="" />
         <animated.div style={animateButtons} className="buttons">
-          <button className="btn receipt_transparent_btn">Verify Order</button>
+          <button
+            onClick={() => verifyItem(orderId)}
+            className="btn receipt_transparent_btn"
+          >
+            Verify Order
+          </button>
           <button className="btn receipt_white_btn">Decline Order</button>
         </animated.div>
         <div></div>
