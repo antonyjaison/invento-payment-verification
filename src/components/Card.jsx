@@ -20,16 +20,28 @@ const Card = ({ setShowReceiptSection, data, setImageUrl, setOrderId }) => {
     if (!(res.data === undefined)) {
       dispatch(removeVerifiedData(id));
     } else {
-      alert("Can't verify")
+      alert("Can't verify");
     }
   };
   return (
     <div className="card_wrapper">
-      <p>Name : {data.name}</p>
-      <p>Phone : {data.phone}</p>
-      <p>Email : {data.email}</p>
-      <p>Collage : {data.college}</p>
-      <p>Total : {data.totalAmount}</p>
+      <p><b>Name :</b> {data.name}</p>
+      <p><b>Phone :</b> {data.phone}</p>
+      <p><b>Email :</b> {data.email}</p>
+      <p><b>Collage :</b> {data.college}</p>
+      <p><b>Total :</b> {data.totalAmount}</p>
+      <h3>
+        <b>
+          <u>Registered Events</u>
+        </b>
+      </h3>
+      {data.orderEvents.map((e) => {
+        return (
+          <p>
+            {e.event.name}
+          </p>
+        );
+      })}
       <div className="card_buttons">
         <button onClick={() => showReceipt(data._id)} className="btn dark_btn">
           Receipt
