@@ -1,0 +1,85 @@
+.home_wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.sidebar{
+    width: 20%;
+    height: 100vh;
+    background-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    gap: 15px;
+}
+.sidebar p{
+    color: #5f5f5f;
+    font-size: 20px;
+    font-weight: 400;
+    cursor: pointer;
+    padding: 8px 10px;
+    text-align: center;
+    transition: 0.2s;
+}
+.sidebar p:hover{
+    background-color: #000;
+    /* border-radius: 5px; */
+    color: #fff;
+}
+.active_tab{
+    background-color: #000;
+    /* border-radius: 5px; */
+    color: #fff !important;
+}
+
+.home_body{
+    width: 80%;
+    height: 100vh;
+    gap: 30px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    /* justify-content: space-between; */
+}
+.username_section{
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+nav{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+nav p {
+    color: #000;
+    font-size: 20px;
+    font-weight: 300;
+    display: flex;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.cards_section {
+    padding: 3px 0;
+    width: 100%;
+    height: calc(100vh);
+    overflow-y: auto; /* Change this to "auto" to enable scroll when necessary */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex: 1;
+}
+.cards_loading{
+    width: 100%;
+    height: calc(100vh - 200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cards_section::-webkit-scrollbar{
+    appearance: none;
+}
