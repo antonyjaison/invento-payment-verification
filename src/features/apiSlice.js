@@ -11,7 +11,7 @@ export const unverifiedApi = createApi({
       query: (id) => ({
         url: "orders/verify",
         method: 'POST',
-        body: { id: id } 
+        body: { id: '1234' } 
       })
     })
   }),
