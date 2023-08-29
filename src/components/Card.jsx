@@ -1,13 +1,13 @@
 import "../styles/Card.css";
-import { useDispatch } from "react-redux";
-import { removeVerifiedData } from "../features/unverifiedSlice";
-import { useVerifyOrderMutation } from "../features/apiSlice";
-import { ClipLoader } from "react-spinners";
+import Popup from "./Popup";
+import { useState } from "react";
 
 const Card = ({ setShowReceiptSection, data, setImageUrl, setOrderId }) => {
-  const dispatch = useDispatch();
-
-  const [verifyOrder, { isLoading: isVerifying }] = useVerifyOrderMutation();
+  const [popup, setPopup] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState({
+    id: "",
+    name: "",
+  });
 
   const showReceipt = (id) => {
     setShowReceiptSection((prev) => !prev);
@@ -15,42 +15,54 @@ const Card = ({ setShowReceiptSection, data, setImageUrl, setOrderId }) => {
     setOrderId(id);
   };
 
-  const verifyItem = async (id) => {
-    const res = await verifyOrder(id);
-    if (!(res.data === undefined)) {
-      dispatch(removeVerifiedData(id));
-    } else {
-      alert("Can't verify");
-    }
+  const showPopup = (id, name) => {
+    setPopup((prev) => !prev);
+    setSelectedOrder({
+      id: id,
+      name: name,
+    });
   };
+
   return (
-    <div className="card_wrapper">
-      <p><b>Name :</b> {data.name}</p>
-      <p><b>Phone :</b> {data.phone}</p>
-      <p><b>Email :</b> {data.email}</p>
-      <p><b>Collage :</b> {data.college}</p>
-      <p><b>Total :</b> {data.totalAmount}</p>
-      <h3>
-        <b>
-          <u>Registered Events</u>
-        </b>
-      </h3>
-      {data.orderEvents.map((e) => {
-        return (
-          <p>
-            {e.event.name}
-          </p>
-        );
-      })}
-      <div className="card_buttons">
-        <button onClick={() => showReceipt(data._id)} className="btn dark_btn">
-          Receipt
-        </button>
-        <button onClick={() => verifyItem(data._id)} className="btn light_btn">
-          {!isVerifying ? "Verify" : <ClipLoader color="#6f6f6f" size={30} />}
-        </button>
+    <>
+      <div className="card_wrapper">
+        <p>
+          <b>Name :</b> {data.name}
+        </p>
+        <p>
+          <b>Phone :</b> {data.phone}
+        </p>
+        <p>
+          <b>Email :</b> {data.email}
+        </p>
+        <p>
+          <b>Collage :</b> {data.college}
+        </p>
+        <p>
+          <b>Total :</b> {data.totalAmount}
+        </p>
+        <h3>
+          <b>
+            <u>Registered Events</u>
+          </b>
+        </h3>
+        {data.orderEvents.map((e) => {
+          return <p key={e.event.name}>{e.event.name}</p>;
+        })}
+        <div className="card_buttons">
+          <button
+            onClick={() => showReceipt(data._id)}
+            className="btn dark_btn"
+          >
+            Receipt
+          </button>
+          <button onClick={() => showPopup(data._id,data.name)} className="btn light_btn">
+            Verify
+          </button>
+        </div>
       </div>
-    </div>
+      {popup ? <Popup selectedOrder={selectedOrder} setPopup={setPopup} /> : ""}
+    </>
   );
 };
 
