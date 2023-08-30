@@ -33,3 +33,12 @@
     flex: 1;
   }
   
+
+  @media(max-width:998px){
+    .card_wrapper {
+      width: 320px;
+    }
+    .card_buttons {
+      gap: 10px;
+    }
+}

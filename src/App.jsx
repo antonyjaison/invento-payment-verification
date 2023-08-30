@@ -22,7 +22,6 @@ function App() {
   useEffect(() => {
     setUser(getUser());
   }, []);
-  console.log(user);
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>

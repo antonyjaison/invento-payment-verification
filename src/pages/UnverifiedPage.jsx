@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setData, filterData } from "../features/unverifiedSlice";
+import { setData, filterData, filterByName } from "../features/unverifiedSlice";
 import { useGetUnverifiedOrdersQuery } from "../features/apiSlice";
 import Card from "../components/Card";
 import RecieptSection from "../components/RecieptSection";
@@ -14,6 +14,7 @@ const HomePage = () => {
   const [showReceiptSection, setShowReceiptSection] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [orderId, setOrderId] = useState("");
+  const [searchName, setSearchName] = useState("");
   const [selectedEvent, setSelectedEvent] = useState({
     name: "",
     id: "",
@@ -29,6 +30,14 @@ const HomePage = () => {
     localStorage.removeItem("user");
     navigate("/login");
   };
+
+  const handleChangeSearch = (e) => {
+    const newSearchName = e.target.value;
+    setSearchName(newSearchName); // Updating the searchName state
+    console.log({ name: newSearchName, id: selectedEvent.id });
+    dispatch(filterByName({ searchName: newSearchName, eventType: selectedEvent.id }));
+  };
+  
 
   const { data, isLoading } = useGetUnverifiedOrdersQuery();
 
@@ -61,25 +70,39 @@ const HomePage = () => {
     <>
       <main className="home_wrapper">
         <div className="sidebar">
-          {eventLabels.map((event) => (
-            <p
-              className={selectedEvent.id === event.id ? "active_tab" : ""}
-              onClick={() => selectEvent(event)}
-              key={event.id}
-            >
-              {event.name}
-            </p>
-          ))}
+          <div className="username_section">
+            <p>Hi, {username}</p>
+          </div>
+          <div className="links">
+            {eventLabels.map((event) => (
+              <p
+                className={selectedEvent.id === event.id ? "active_tab" : ""}
+                onClick={() => selectEvent(event)}
+                key={event.id}
+              >
+                {event.name}
+              </p>
+            ))}
+          </div>
+          <p className="logout" onClick={logout}>
+            Logout
+            <img src="/icons/logout.svg" alt="" />
+          </p>
         </div>
         <div className="home_body">
           <nav>
             <h1>{selectedEvent.name}</h1>
-            <div className="username_section">
-              <p>Hi, {username}</p>
-              <p onClick={logout}>
-                Logout
-                <img src="/icons/logout.svg" alt="" />
-              </p>
+            <div className="search_section">
+              <div className="input_group">
+                <img src="/icons/search.svg" alt="" />
+                <input
+                  onChange={handleChangeSearch}
+                  value={searchName}
+                  type="text"
+                  placeholder="Search by name..."
+                />
+              </div>
+              <div className="search_results"></div>
             </div>
           </nav>
 

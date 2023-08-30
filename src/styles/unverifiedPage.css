@@ -9,6 +9,7 @@
     background-color: var(--primary-color);
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     padding: 50px;
     gap: 15px;
 }
@@ -21,6 +22,16 @@
     text-align: center;
     transition: 0.2s;
 }
+.sidebar .logout{
+    color: #fff;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.sidebar .logout:hover{
+    background-color: transparent;
+}
+
 .sidebar p:hover{
     background-color: #000;
     /* border-radius: 5px; */
@@ -48,6 +59,12 @@
     align-items: center;
     gap: 30px;
 }
+.username_section p{
+    color: #FFF;
+}
+.username_section p:hover{
+    background-color: transparent;
+}
 nav{
     width: 100%;
     display: flex;
@@ -60,6 +77,43 @@ nav p {
     display: flex;
     gap: 8px;
     cursor: pointer;
+}
+.search_section{
+    position: relative;
+}
+.input_group{
+    display: flex;
+    height: fit-content;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #9F9696;
+    padding: 3px;
+}
+.input_group input{
+    border: none;
+    color: #000;
+    font-size: 18px;
+    font-weight: 300;
+}
+.input_group input::placeholder{
+    color: #9F9696;     
+}
+.input_group input:focus{
+    outline: none;
+}
+.search_results{
+    display: none;
+    width: 100%;
+    min-height: 100px;
+    position: absolute;
+    top: 35px;
+    background: #FFF;
+    box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.50);
+}
+.links{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .cards_section {
@@ -82,4 +136,25 @@ nav p {
 }
 .cards_section::-webkit-scrollbar{
     appearance: none;
+}
+
+@media(max-width:998px){
+    .sidebar{
+        padding: 10px;
+        gap: 15px;
+    }
+    .sidebar p{
+        font-size: 18px;
+        padding: 8px;
+    }
+}
+
+@media(max-width:768px){
+    .sidebar{
+        position: absolute;
+        left:-20%;
+    }
+    .cards_section{
+        width: 100%;
+    }
 }
