@@ -12,6 +12,7 @@ import { getUser } from "../utils/user";
 
 const HomePage = () => {
   const [showReceiptSection, setShowReceiptSection] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [orderId, setOrderId] = useState("");
   const [searchName, setSearchName] = useState("");
@@ -24,6 +25,9 @@ const HomePage = () => {
 
   const selectEvent = (event) => {
     setSelectedEvent(event);
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false)
+    }
   };
 
   const logout = () => {
@@ -31,13 +35,24 @@ const HomePage = () => {
     navigate("/login");
   };
 
+  const toggleSidebar = () => {
+    setSidebarOpen((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    if (window.innerWidth > 768) {
+      setSidebarOpen(true);
+    }
+  }, []);
+
   const handleChangeSearch = (e) => {
     const newSearchName = e.target.value;
     setSearchName(newSearchName); // Updating the searchName state
     console.log({ name: newSearchName, id: selectedEvent.id });
-    dispatch(filterByName({ searchName: newSearchName, eventType: selectedEvent.id }));
+    dispatch(
+      filterByName({ searchName: newSearchName, eventType: selectedEvent.id })
+    );
   };
-  
 
   const { data, isLoading } = useGetUnverifiedOrdersQuery();
 
@@ -69,9 +84,16 @@ const HomePage = () => {
   return (
     <>
       <main className="home_wrapper">
-        <div className="sidebar">
-          <div className="username_section">
-            <p>Hi, {username}</p>
+        <div
+          className={`sidebar ${
+            sidebarOpen ? "sidebar_open" : "sidebar_closed"
+          }`}
+        >
+          <div className="sidebar_header">
+            <div className="username_section">
+              <p>Hi, {username}</p>
+            </div>
+            <img onClick={toggleSidebar} src="/icons/close.svg" alt="" />
           </div>
           <div className="links">
             {eventLabels.map((event) => (
@@ -89,9 +111,31 @@ const HomePage = () => {
             <img src="/icons/logout.svg" alt="" />
           </p>
         </div>
+
         <div className="home_body">
           <nav>
             <h1>{selectedEvent.name}</h1>
+            <div className="search_section d_sm_none">
+              <div className="input_group">
+                <img src="/icons/search.svg" alt="" />
+                <input
+                  onChange={handleChangeSearch}
+                  value={searchName}
+                  type="text"
+                  placeholder="Search by name..."
+                />
+              </div>
+              <div className="search_results"></div>
+            </div>
+            <img
+              className="menu_icon"
+              onClick={toggleSidebar}
+              src="/icons/menu.svg"
+              alt=""
+            />
+          </nav>
+
+          <div className="mobile_search">
             <div className="search_section">
               <div className="input_group">
                 <img src="/icons/search.svg" alt="" />
@@ -104,7 +148,7 @@ const HomePage = () => {
               </div>
               <div className="search_results"></div>
             </div>
-          </nav>
+          </div>
 
           <div className="cards_section">
             {!isLoading ? (
@@ -142,6 +186,7 @@ const HomePage = () => {
           setShowReceiptSection={setShowReceiptSection}
         />
       )}
+      {sidebarOpen ? <div className="dim"></div> : ""}
     </>
   );
 };

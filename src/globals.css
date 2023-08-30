@@ -46,3 +46,12 @@ p,h1,h2,h3{
   background-color: var(--primary-color);
   color: #fff;
 }
+.d_sm_none{
+  display: block;
+}
+
+@media(max-width:768px){
+  .d_sm_none{
+    display: none;
+  }
+}
