@@ -4,7 +4,8 @@ export const unverifiedSlice = createSlice({
   name: 'unverifiedSlice',
   initialState: {
     filterData:[],
-    initialdata:[]
+    initialdata:[],
+    filterByNameData:[]
   },
   reducers: {
     setData: (state, action) => {
@@ -25,11 +26,22 @@ export const unverifiedSlice = createSlice({
         return data._id !== action.payload;
       });
     },
+    filterByName: (state, action) => {
+      const { searchName, eventType } = action.payload;
     
+      state.filterData = state.initialdata.filter(data => {
+        const lowercaseSearchName = searchName.toLowerCase();
+        const startsWithLetter = data.name.toLowerCase().startsWith(lowercaseSearchName);    
+        return (
+          startsWithLetter &&
+          data.orderEvents.some(event => event.event.eventType === eventType)
+        );
+      });
+    },
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setData, filterData,removeVerifiedData } = unverifiedSlice.actions;
+export const { setData, filterData,removeVerifiedData,filterByName } = unverifiedSlice.actions;
 
 export default unverifiedSlice.reducer;
