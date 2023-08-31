@@ -31,7 +31,13 @@
 .sidebar .logout:hover{
     background-color: transparent;
 }
-
+.back_btn{
+    text-decoration: none;
+}
+.back_btn p{
+    color: #FFF;
+    font-size: 18px;
+}
 .sidebar p:hover{
     background-color: #000;
     /* border-radius: 5px; */
@@ -203,4 +209,7 @@ nav .menu_icon{
         padding: 0 10%;
         display: block;
     }
+    .sidebar_header img{
+        display: block;
+     }
 }

@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/unverifiedPage.css";
 import eventLabels from "../events";
 import { getUser } from "../utils/user";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [showReceiptSection, setShowReceiptSection] = useState(false);
@@ -26,7 +27,7 @@ const HomePage = () => {
   const selectEvent = (event) => {
     setSelectedEvent(event);
     if (window.innerWidth < 768) {
-      setSidebarOpen(false)
+      setSidebarOpen(false);
     }
   };
 
@@ -93,8 +94,12 @@ const HomePage = () => {
             <div className="username_section">
               <p>Hi, {username}</p>
             </div>
+
             <img onClick={toggleSidebar} src="/icons/close.svg" alt="" />
           </div>
+          <Link className="back_btn" to="/orders/verified">
+            <p><img src="/icons/left_arrow.svg" alt="" /> Verified orders</p>
+          </Link>
           <div className="links">
             {eventLabels.map((event) => (
               <p
@@ -166,6 +171,7 @@ const HomePage = () => {
                         data={data}
                         setImageUrl={setImageUrl}
                         setShowReceiptSection={setShowReceiptSection}
+                        isVerified={false}
                       />
                     );
                   })}

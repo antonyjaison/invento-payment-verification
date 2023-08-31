@@ -1,9 +1,17 @@
 import "../styles/Card.css";
+import ParticipantsPopup from "./ParticipantsPopup";
 import Popup from "./Popup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const Card = ({ setShowReceiptSection, data, setImageUrl, setOrderId }) => {
+const Card = ({
+  setShowReceiptSection,
+  data,
+  setImageUrl,
+  setOrderId,
+  isVerified,
+}) => {
   const [popup, setPopup] = useState(false);
+  const [showParticipants, setShowParticipants] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({
     id: "",
     name: "",
@@ -41,6 +49,12 @@ const Card = ({ setShowReceiptSection, data, setImageUrl, setOrderId }) => {
         <p>
           <b>Total :</b> {data.totalAmount}
         </p>
+        <p className="participant_link">
+          <u onClick={() => setShowParticipants((prev) => !prev)}>
+            Show participants
+          </u>
+        </p>
+
         <h3>
           <b>
             <u>Registered Events</u>
@@ -49,19 +63,34 @@ const Card = ({ setShowReceiptSection, data, setImageUrl, setOrderId }) => {
         {data.orderEvents.map((e) => {
           return <p key={e.event.name}>{e.event.name}</p>;
         })}
-        <div className="card_buttons">
-          <button
-            onClick={() => showReceipt(data._id)}
-            className="btn dark_btn"
-          >
-            Receipt
-          </button>
-          <button onClick={() => showPopup(data._id,data.name)} className="btn light_btn">
-            Verify
-          </button>
-        </div>
+        {!isVerified ? (
+          <div className="card_buttons">
+            <button
+              onClick={() => showReceipt(data._id)}
+              className="btn dark_btn"
+            >
+              Receipt
+            </button>
+            <button
+              onClick={() => showPopup(data._id, data.name)}
+              className="btn light_btn"
+            >
+              Verify
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       {popup ? <Popup selectedOrder={selectedOrder} setPopup={setPopup} /> : ""}
+      {showParticipants ? (
+        <ParticipantsPopup
+          setShowParticipants={setShowParticipants}
+          orderEvents={data.orderEvents}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };
