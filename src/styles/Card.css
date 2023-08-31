@@ -32,4 +32,15 @@
   .card_buttons button {
     flex: 1;
   }
-  
+  .participant_link{
+    cursor: pointer;
+  }
+
+  @media(max-width:998px){
+    .card_wrapper {
+      width: 320px;
+    }
+    .card_buttons {
+      gap: 10px;
+    }
+}

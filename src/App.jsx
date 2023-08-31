@@ -10,8 +10,10 @@ import {
 } from "react-router-dom";
 import "./globals.css";
 
-import HomePage from "./pages/HomePage";
+import UnverifiedPage from "./pages/UnverifiedPage";
 import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import VerifiedPage from "./pages/VerifiedPage";
 import { getUser } from "./utils/user";
 import { useEffect, useState } from "react";
 
@@ -20,15 +22,15 @@ function App() {
   useEffect(() => {
     setUser(getUser());
   }, []);
-  console.log(user);
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/"
-          element={<HomePage />}
-        />
+        <Route path="/" element={<HomePage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="orders" >
+          <Route path="unverified" element={<UnverifiedPage />} />
+          <Route path="verified" element={<VerifiedPage />} />
+        </Route>
       </>
     )
   );

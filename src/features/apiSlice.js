@@ -7,6 +7,9 @@ export const unverifiedApi = createApi({
     getUnverifiedOrders: builder.query({
       query: () => "orders/unverified"
     }),
+    getVerifiedOrders: builder.query({
+      query: () => "orders/verify"
+    }),
     verifyOrder: builder.mutation({
       query: (id) => ({
         url: "orders/verify",
@@ -17,4 +20,4 @@ export const unverifiedApi = createApi({
   }),
 });
 
-export const { useGetUnverifiedOrdersQuery, useVerifyOrderMutation } = unverifiedApi;
+export const { useGetUnverifiedOrdersQuery, useVerifyOrderMutation,useGetVerifiedOrdersQuery } = unverifiedApi;
