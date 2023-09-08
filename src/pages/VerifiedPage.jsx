@@ -22,11 +22,12 @@ const HomePage = () => {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  let count = 0;
 
   const selectEvent = (event) => {
     setSelectedEvent(event);
     if (window.innerWidth < 768) {
-      setSidebarOpen(false)
+      setSidebarOpen(false);
     }
   };
 
@@ -75,6 +76,8 @@ const HomePage = () => {
   );
   const username = getUser();
 
+  count = unverifiedData.length;
+
   useEffect(() => {
     if (!username) {
       navigate("/login");
@@ -96,7 +99,9 @@ const HomePage = () => {
             <img onClick={toggleSidebar} src="/icons/close.svg" alt="" />
           </div>
           <Link className="back_btn" to="/orders/unverified">
-            <p><img src="/icons/left_arrow.svg" alt="" /> Unverified orders</p>
+            <p>
+              <img src="/icons/left_arrow.svg" alt="" /> Unverified orders
+            </p>
           </Link>
           <div className="links">
             {eventLabels.map((event) => (
@@ -118,6 +123,13 @@ const HomePage = () => {
         <div className="home_body">
           <nav>
             <h1>{selectedEvent.name}</h1>
+            {searchName.length > 0 ? (
+              <h3>
+                Results for '{searchName}' : {count}
+              </h3>
+            ) : (
+              <h3>Total orders : {count}</h3>
+            )}
             <div className="search_section d_sm_none">
               <div className="input_group">
                 <img src="/icons/search.svg" alt="" />
