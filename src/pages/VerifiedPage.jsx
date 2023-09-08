@@ -16,6 +16,7 @@ const HomePage = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [orderId, setOrderId] = useState("");
   const [searchName, setSearchName] = useState("");
+  const [count, setCount] = useState(0);
   const [selectedEvent, setSelectedEvent] = useState({
     name: "",
     id: "",
@@ -26,7 +27,7 @@ const HomePage = () => {
   const selectEvent = (event) => {
     setSelectedEvent(event);
     if (window.innerWidth < 768) {
-      setSidebarOpen(false)
+      setSidebarOpen(false);
     }
   };
 
@@ -75,6 +76,8 @@ const HomePage = () => {
   );
   const username = getUser();
 
+  console.log(unverifiedData.length);
+
   useEffect(() => {
     if (!username) {
       navigate("/login");
@@ -96,7 +99,9 @@ const HomePage = () => {
             <img onClick={toggleSidebar} src="/icons/close.svg" alt="" />
           </div>
           <Link className="back_btn" to="/orders/unverified">
-            <p><img src="/icons/left_arrow.svg" alt="" /> Unverified orders</p>
+            <p>
+              <img src="/icons/left_arrow.svg" alt="" /> Unverified orders
+            </p>
           </Link>
           <div className="links">
             {eventLabels.map((event) => (

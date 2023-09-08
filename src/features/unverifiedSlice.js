@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import format from 'date-fns/format';
 
 export const unverifiedSlice = createSlice({
   name: 'unverifiedSlice',
@@ -31,7 +32,8 @@ export const unverifiedSlice = createSlice({
     
       state.filterData = state.initialdata.filter(data => {
         const lowercaseSearchName = searchName.toLowerCase();
-        const startsWithLetter = data.name.toLowerCase().startsWith(lowercaseSearchName);    
+        const startsWithLetter = data.name.toLowerCase().startsWith(lowercaseSearchName) || data.email.toLowerCase().startsWith(lowercaseSearchName) ||
+          format(new Date(data.createdAt),'dd-MM-yyyy').startsWith(lowercaseSearchName) || (data.referalCode && data.referalCode.startsWith(searchName));
         return (
           startsWithLetter &&
           data.orderEvents.some(event => event.event.eventType === eventType)

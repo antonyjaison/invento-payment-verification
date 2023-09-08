@@ -1,7 +1,8 @@
 import "../styles/Card.css";
 import ParticipantsPopup from "./ParticipantsPopup";
 import Popup from "./Popup";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import format from "date-fns/format";
 
 const Card = ({
   setShowReceiptSection,
@@ -45,6 +46,12 @@ const Card = ({
         </p>
         <p>
           <b>Collage :</b> {data.college}
+        </p>
+        <p>
+          <b>Registered date :</b> {format(new Date(data.createdAt),'dd-MM-yyyy')}
+        </p>
+        <p>
+          <b>Referal code :</b> {data.referalCode ? data.referalCode : "No referral"}
         </p>
         <p>
           <b>Total :</b> {data.totalAmount}
