@@ -4,6 +4,7 @@ import { MoonLoader, ClipLoader } from "react-spinners";
 import { useVerifyOrderMutation } from "../features/apiSlice";
 import { removeVerifiedData } from "../features/unverifiedSlice";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 const RecieptSection = ({
   setShowReceiptSection,
@@ -13,7 +14,7 @@ const RecieptSection = ({
 }) => {
   const dispatch = useDispatch();
   const [verifyOrder, { isLoading: isVerifying }] = useVerifyOrderMutation();
-
+  const [paymentScreenShot, setPaymentScreenShot] = useState(imageUrl)
   const closeReceiptSection = () => {
     setShowReceiptSection(false);
   };
@@ -46,11 +47,18 @@ const RecieptSection = ({
     },
   });
 
+  console.log(imageUrl)
+
+  const newBaseUrl = 'https://res.cloudinary.com/inventov23/image/upload/v1693102226/InventoVerifyPayment/'
+
   return (
     <animated.div style={animateStyles} className="receipt_section_wrapper">
       <div className="img_section">
         {imageUrl ? (
-          <img src={imageUrl} alt="" />
+          <img src={paymentScreenShot} alt="" onError={() => {
+            const imgArr = imageUrl.split("/")
+            setPaymentScreenShot(newBaseUrl+imgArr[imgArr.length - 1])
+          }} />
         ) : (
           <MoonLoader color="#6f6f6f" size={50} />
         )}

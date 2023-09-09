@@ -11,8 +11,6 @@ const Card = ({
   setOrderId,
   isVerified,
 }) => {
-  const baseImageUrl =
-    "https://res.cloudinary.com/inventov23/image/upload/v1693071810/InventoVerifyPayment/";
   const [popup, setPopup] = useState(false);
   const [showParticipants, setShowParticipants] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({
@@ -22,14 +20,7 @@ const Card = ({
 
   const showReceipt = (id) => {
     setShowReceiptSection((prev) => !prev);
-    console.log(data.paymentProof.secure_url.split("/")[8]);
-
-    !isVerified
-      ? setImageUrl(
-          `${baseImageUrl}/${data.paymentProof.secure_url.split("/")[8]}`
-        )
-      : setImageUrl(data.paymentProof.secure_url);
-
+    setImageUrl(data.paymentProof.secure_url);
     setOrderId(id);
   };
 

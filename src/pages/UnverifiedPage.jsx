@@ -49,13 +49,15 @@ const HomePage = () => {
   const handleChangeSearch = (e) => {
     const newSearchName = e.target.value;
     setSearchName(newSearchName); // Updating the searchName state
-    console.log({ name: newSearchName, id: selectedEvent.id });
+    // console.log({ name: newSearchName, id: selectedEvent.id });
     dispatch(
       filterByName({ searchName: newSearchName, eventType: selectedEvent.id })
     );
   };
 
   const { data, isLoading } = useGetUnverifiedOrdersQuery();
+
+  // data.orderEvents
 
   useEffect(() => {
     if (data) {
