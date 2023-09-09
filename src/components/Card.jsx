@@ -11,26 +11,26 @@ const Card = ({
   setOrderId,
   isVerified,
 }) => {
-  const [popup, setPopup] = useState(false);
-  const [showParticipants, setShowParticipants] = useState(false);
+  const [popup, setPopup] = useState(false)
+  const [showParticipants, setShowParticipants] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState({
     id: "",
     name: "",
-  });
+  })
 
   const showReceipt = (id) => {
-    setShowReceiptSection((prev) => !prev);
-    setImageUrl(data.paymentProof.secure_url);
-    setOrderId(id);
-  };
+    setShowReceiptSection((prev) => !prev)
+    setImageUrl(data.paymentProof.secure_url)
+    setOrderId(id)
+  }
 
   const showPopup = (id, name) => {
-    setPopup((prev) => !prev);
+    setPopup((prev) => !prev)
     setSelectedOrder({
       id: id,
       name: name,
-    });
-  };
+    })
+  }
 
   return (
     <>
@@ -68,7 +68,17 @@ const Card = ({
           </b>
         </h3>
         {data.orderEvents.map((e) => {
-          return <p key={e.event.name}>{e.event.name}</p>;
+          return (
+            <>
+              <p key={e.event.name}>{e.event.name}</p>
+              {e.type === "proshow" && e.uniqueId && (
+                <div style={{ paddingLeft: "0.7rem" }}>
+                  <p>Code: {e.uniqueId} </p>
+                  <p>TicketCount: {e.ticketCount} </p>
+                </div>
+              )}
+            </>
+          )
         })}
         {!isVerified ? (
           <div className="card_buttons">
@@ -89,7 +99,14 @@ const Card = ({
           ""
         )}
       </div>
-      {popup ? <Popup selectedOrder={selectedOrder} setPopup={setPopup} /> : ""}
+      {popup ? (
+        <Popup
+          selectedOrder={selectedOrder}
+          setPopup={setPopup}
+        />
+      ) : (
+        ""
+      )}
       {showParticipants ? (
         <ParticipantsPopup
           setShowParticipants={setShowParticipants}
@@ -99,7 +116,7 @@ const Card = ({
         ""
       )}
     </>
-  );
-};
+  )
+}
 
-export default Card;
+export default Card
