@@ -11,30 +11,39 @@ const Card = ({
   setOrderId,
   isVerified,
 }) => {
-  const [popup, setPopup] = useState(false)
-  const [showParticipants, setShowParticipants] = useState(false)
+  const baseImageUrl =
+    "https://res.cloudinary.com/inventov23/image/upload/v1693071810/InventoVerifyPayment/";
+  const [popup, setPopup] = useState(false);
+  const [showParticipants, setShowParticipants] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({
     id: "",
     name: "",
-  })
+  });
 
   const showReceipt = (id) => {
-    setShowReceiptSection((prev) => !prev)
-    setImageUrl(data.paymentProof.secure_url)
-    setOrderId(id)
-  }
+    setShowReceiptSection((prev) => !prev);
+    console.log(data.paymentProof.secure_url.split("/")[8]);
+
+    !isVerified
+      ? setImageUrl(
+          `${baseImageUrl}/${data.paymentProof.secure_url.split("/")[8]}`
+        )
+      : setImageUrl(data.paymentProof.secure_url);
+
+    setOrderId(id);
+  };
 
   const showPopup = (id, name) => {
-    setPopup((prev) => !prev)
+    setPopup((prev) => !prev);
     setSelectedOrder({
       id: id,
       name: name,
-    })
-  }
+    });
+  };
 
   return (
     <>
-      <div className="card_wrapper">
+      <div key={data._id} className="card_wrapper">
         <p>
           <b>Name :</b> {data.name}
         </p>
@@ -48,10 +57,12 @@ const Card = ({
           <b>Collage :</b> {data.college}
         </p>
         <p>
-          <b>Registered date :</b> {format(new Date(data.createdAt),'dd-MM-yyyy')}
+          <b>Registered date :</b>{" "}
+          {format(new Date(data.createdAt), "dd-MM-yyyy")}
         </p>
         <p>
-          <b>Referal code :</b> {data.referalCode ? data.referalCode : "No referral"}
+          <b>Referal code :</b>{" "}
+          {data.referalCode ? data.referalCode : "No referral"}
         </p>
         <p>
           <b>Total :</b> {data.totalAmount}
@@ -78,35 +89,28 @@ const Card = ({
                 </div>
               )}
             </>
-          )
+          );
         })}
-        {!isVerified ? (
-          <div className="card_buttons">
-            <button
-              onClick={() => showReceipt(data._id)}
-              className="btn dark_btn"
-            >
-              Receipt
-            </button>
+        <div className="card_buttons">
+          <button
+            onClick={() => showReceipt(data._id)}
+            className="btn dark_btn"
+          >
+            Receipt
+          </button>
+          {isVerified ? (
             <button
               onClick={() => showPopup(data._id, data.name)}
               className="btn light_btn"
             >
               Verify
             </button>
-          </div>
-        ) : (
-          ""
-        )}
+          ) : (
+            ""
+          )}
+        </div>
       </div>
-      {popup ? (
-        <Popup
-          selectedOrder={selectedOrder}
-          setPopup={setPopup}
-        />
-      ) : (
-        ""
-      )}
+      {popup ? <Popup selectedOrder={selectedOrder} setPopup={setPopup} /> : ""}
       {showParticipants ? (
         <ParticipantsPopup
           setShowParticipants={setShowParticipants}
@@ -116,7 +120,7 @@ const Card = ({
         ""
       )}
     </>
-  )
-}
+  );
+};
 
-export default Card
+export default Card;

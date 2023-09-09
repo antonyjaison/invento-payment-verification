@@ -181,7 +181,7 @@ const HomePage = () => {
                         data={data}
                         setImageUrl={setImageUrl}
                         setShowReceiptSection={setShowReceiptSection}
-                        isVerified={true}
+                        isVerified={false}
                       />
                     );
                   })}
@@ -200,6 +200,7 @@ const HomePage = () => {
           orderId={orderId}
           imageUrl={imageUrl}
           setShowReceiptSection={setShowReceiptSection}
+          isVerified={false}
         />
       )}
       {sidebarOpen ? <div className="dim"></div> : ""}

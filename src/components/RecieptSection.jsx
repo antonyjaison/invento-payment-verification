@@ -5,7 +5,12 @@ import { useVerifyOrderMutation } from "../features/apiSlice";
 import { removeVerifiedData } from "../features/unverifiedSlice";
 import { useDispatch } from "react-redux";
 
-const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
+const RecieptSection = ({
+  setShowReceiptSection,
+  imageUrl,
+  orderId,
+  isVerified,
+}) => {
   const dispatch = useDispatch();
   const [verifyOrder, { isLoading: isVerifying }] = useVerifyOrderMutation();
 
@@ -52,21 +57,24 @@ const RecieptSection = ({ setShowReceiptSection, imageUrl, orderId }) => {
       </div>
       <div className="button_section">
         <img onClick={closeReceiptSection} src="/icons/close.svg" alt="" />
-        <animated.div style={animateButtons} className="buttons">
-          <button
-            onClick={() => verifyItem(orderId)}
-            className="btn receipt_transparent_btn"
-          >
-            {!isVerifying ? (
-              "Verify Order"
-            ) : (
-              <ClipLoader color="#6f6f6f" size={30} />
-            )}
-          </button>
-          <button disabled className="btn receipt_white_btn">
-            Decline Order
-          </button>
-        </animated.div>
+
+        {isVerified && (
+          <animated.div style={animateButtons} className="buttons">
+            <button
+              onClick={() => verifyItem(orderId)}
+              className="btn receipt_transparent_btn"
+            >
+              {!isVerifying ? (
+                "Verify Order"
+              ) : (
+                <ClipLoader color="#6f6f6f" size={30} />
+              )}
+            </button>
+            <button disabled className="btn receipt_white_btn">
+              Decline Order
+            </button>
+          </animated.div>
+        )}
         <div></div>
       </div>
     </animated.div>
