@@ -48,11 +48,11 @@ const Card = ({
           <b>Collage :</b> {data.college}
         </p>
         <p>
-          <b>Registered date :</b>{" "}
+          <b>Registered date :</b>
           {format(new Date(data.createdAt), "dd-MM-yyyy")}
         </p>
         <p>
-          <b>Referal code :</b>{" "}
+          <b>Referal code :</b>
           {data.referalCode ? data.referalCode : "No referral"}
         </p>
         <p>
