@@ -16,9 +16,9 @@ const ParticipantsPopup = ({ setShowParticipants, orderEvents }) => {
 
           {orderEvents.map((data) => {
             return (
-              <div key={data._id}>
-                <h3>{data.event.name}</h3>
-                {data.participants.map((data) => {
+              <div key={data?._id}>
+                <h3>{data?.event?.name}</h3>
+                {data?.participants?.map((data) => {
                   return <p key={data}>{data}</p>;
                 })}
               </div>

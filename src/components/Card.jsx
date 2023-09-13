@@ -36,25 +36,25 @@ const Card = ({
     <>
       <div className="card_wrapper">
         <p>
-          <b>Name :</b> {data.name}
+          <b>Name :</b> {data?.name}
         </p>
         <p>
-          <b>Phone :</b> {data.phone}
+          <b>Phone :</b> {data?.phone}
         </p>
         <p>
-          <b>Email :</b> {data.email}
+          <b>Email :</b> {data?.email}
         </p>
         <p>
-          <b>Collage :</b> {data.college}
+          <b>Collage :</b> {data?.college}
         </p>
         <p>
-          <b>Registered date :</b> {format(new Date(data.createdAt),'dd-MM-yyyy')}
+          <b>Registered date :</b> {format(new Date(data?.createdAt),'dd-MM-yyyy')}
         </p>
         <p>
-          <b>Referal code :</b> {data.referalCode ? data.referalCode : "No referral"}
+          <b>Referal code :</b> {data.referalCode ? data?.referalCode : "No referral"}
         </p>
         <p>
-          <b>Total :</b> {data.totalAmount}
+          <b>Total :</b> {data?.totalAmount}
         </p>
         <p className="participant_link">
           <u onClick={() => setShowParticipants((prev) => !prev)}>
@@ -68,7 +68,7 @@ const Card = ({
           </b>
         </h3>
         {data.orderEvents.map((e) => {
-          return <p key={e.event.name}>{e.event.name}</p>;
+          return <p key={e.event?.name}>{e.event?.name}</p>;
         })}
         {!isVerified ? (
           <div className="card_buttons">
@@ -79,7 +79,7 @@ const Card = ({
               Receipt
             </button>
             <button
-              onClick={() => showPopup(data._id, data.name)}
+              onClick={() => showPopup(data?._id, data?.name)}
               className="btn light_btn"
             >
               Verify
@@ -93,7 +93,7 @@ const Card = ({
       {showParticipants ? (
         <ParticipantsPopup
           setShowParticipants={setShowParticipants}
-          orderEvents={data.orderEvents}
+          orderEvents={data?.orderEvents}
         />
       ) : (
         ""
