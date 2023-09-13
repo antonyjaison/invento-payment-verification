@@ -16,7 +16,7 @@ export const unverifiedSlice = createSlice({
       const categoryToFilter = action.payload.id; // Get the category to filter by
       state.filterData = state.initialdata.filter(order => {
         const orderEvents = order.orderEvents;
-        return orderEvents.some(event => event.event.eventType === categoryToFilter);
+        return orderEvents.some(event => event?.event?.eventType === categoryToFilter);
       });
     },
     removeVerifiedData: (state, action) => {
@@ -32,12 +32,12 @@ export const unverifiedSlice = createSlice({
     
       state.filterData = state.initialdata.filter(data => {
         const lowercaseSearchName = searchName.toLowerCase();
-        const startsWithLetter = data.name.toLowerCase().startsWith(lowercaseSearchName) || data.email.toLowerCase().startsWith(lowercaseSearchName) ||
-          format(new Date(data.createdAt),'dd-MM-yyyy').startsWith(lowercaseSearchName) || (data.referalCode && data.referalCode.startsWith(searchName)) ||
-          data.orderEvents.some(e => e.uniqueId?.startsWith(searchName))
+        const startsWithLetter = data?.name.toLowerCase().startsWith(lowercaseSearchName) || data?.email.toLowerCase().startsWith(lowercaseSearchName) ||
+          format(new Date(data?.createdAt),'dd-MM-yyyy').startsWith(lowercaseSearchName) || (data.referalCode && data?.referalCode.startsWith(searchName)) ||
+          data?.orderEvents.some(e => e.uniqueId?.startsWith(searchName))
         return (
           startsWithLetter &&
-          data.orderEvents.some(event => event.event.eventType === eventType)
+          data.orderEvents?.some(event => event.event?.eventType === eventType)
         );
       });
     },

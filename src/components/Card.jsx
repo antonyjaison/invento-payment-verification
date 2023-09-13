@@ -36,27 +36,27 @@ const Card = ({
     <>
       <div key={data._id} className="card_wrapper">
         <p>
-          <b>Name :</b> {data.name}
+          <b>Name :</b> {data?.name}
         </p>
         <p>
-          <b>Phone :</b> {data.phone}
+          <b>Phone :</b> {data?.phone}
         </p>
         <p>
-          <b>Email :</b> {data.email}
+          <b>Email :</b> {data?.email}
         </p>
         <p>
-          <b>Collage :</b> {data.college}
+          <b>Collage :</b> {data?.college}
         </p>
         <p>
           <b>Registered date :</b>
-          {format(new Date(data.createdAt), "dd-MM-yyyy")}
+          {format(new Date(data?.createdAt), "dd-MM-yyyy")}
         </p>
         <p>
           <b>Referal code :</b>
-          {data.referalCode ? data.referalCode : "No referral"}
+          {data?.referalCode ? data?.referalCode : "No referral"}
         </p>
         <p>
-          <b>Total :</b> {data.totalAmount}
+          <b>Total :</b> {data?.totalAmount}
         </p>
         <p className="participant_link">
           <u onClick={() => setShowParticipants((prev) => !prev)}>
@@ -72,11 +72,11 @@ const Card = ({
         {data.orderEvents.map((e) => {
           return (
             <>
-              <p key={e.event.name}>{e.event.name}</p>
-              {e.type === "proshow" && e.uniqueId && (
+              <p key={e.event?.name}>{e.event?.name}</p>
+              {e.type === "proshow" && e?.uniqueId && (
                 <div style={{ paddingLeft: "0.7rem" }}>
                   <p>Code: {e.uniqueId} </p>
-                  <p>TicketCount: {e.ticketCount} </p>
+                  <p>TicketCount: {e?.ticketCount} </p>
                 </div>
               )}
             </>
@@ -84,14 +84,14 @@ const Card = ({
         })}
         <div className="card_buttons">
           <button
-            onClick={() => showReceipt(data._id)}
+            onClick={() => showReceipt(data?._id)}
             className="btn dark_btn"
           >
             Receipt
           </button>
           {isVerified ? (
             <button
-              onClick={() => showPopup(data._id, data.name)}
+              onClick={() => showPopup(data?._id, data?.name)}
               className="btn light_btn"
             >
               Verify
