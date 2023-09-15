@@ -16,8 +16,15 @@ export const unverifiedApi = createApi({
         method: 'POST',
         body: { id: id } 
       })
+    }),
+    verifyProshow: builder.mutation({
+      query: ({orderId, regId, day}) => ({
+        url: "orders/proshow/verify",
+        method: 'POST',
+        body: { credential:{orderId,regId,day}} 
+      })
     })
   }),
 });
 
-export const { useGetUnverifiedOrdersQuery, useVerifyOrderMutation,useGetVerifiedOrdersQuery } = unverifiedApi;
+export const { useGetUnverifiedOrdersQuery, useVerifyOrderMutation,useGetVerifiedOrdersQuery,useVerifyProshowMutation } = unverifiedApi;

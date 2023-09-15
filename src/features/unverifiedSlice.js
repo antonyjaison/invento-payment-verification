@@ -6,7 +6,9 @@ export const unverifiedSlice = createSlice({
   initialState: {
     filterData:[],
     initialdata:[],
-    filterByNameData:[]
+    filterByNameData:[],
+    dayOne:false,
+    dayTwo:false
   },
   reducers: {
     setData: (state, action) => {
@@ -41,10 +43,64 @@ export const unverifiedSlice = createSlice({
         );
       });
     },
+    verifyProshowLocal:(state,action) => {
+      const {orderId, regId, day, day_for_local} = action.payload
+      
+      // state.initialdata.forEach((data) => {
+      //   data.orderEvents.forEach((e) => {
+      //     if (e._id === orderId) {
+      //       if (e.name === "Day 2") {
+      //         console.log("day 2")
+      //         e.dayTwoCheck = true;
+      //       }
+      //       if (e.name === "Day 3") {
+      //         console.log("day 3")
+      //         e.dayThreeCheck = true;
+      //         console.log(e.dayThreeCheck)
+      //       }
+      //       if (e.name === "Combo") {
+      //         console.log("Combo")
+      //       }
+      //     }
+      //   });
+      // });
+
+      const updatedData = state.initialdata.map((data) => ({
+        ...data,
+        orderEvents: data.orderEvents.map((e) => {
+          if (e._id === orderId) {
+            if (e.name === 'Day 2') {
+              console.log('day 2');
+              return { ...e, dayTwoCheck: true };
+            }
+            if (e.name === 'Day 3') {
+              console.log('day 3');
+              return { ...e, dayThreeCheck: true };
+            }
+            if (e.name === "Combo"){
+              if (day === 'Day 2') {
+                console.log('day 2');
+                return { ...e, dayTwoCheck: true };
+              }
+              if (day === 'Day 3') {
+                console.log('day 3');
+                return { ...e, dayThreeCheck: true };
+              }
+            }
+          }
+          return e;
+        }),
+      }));
+
+      return {
+        ...state,
+        initialdata: updatedData,
+      };
+    }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setData, filterData,removeVerifiedData,filterByName } = unverifiedSlice.actions;
+export const { setData, filterData,removeVerifiedData,filterByName,verifyProshowLocal } = unverifiedSlice.actions;
 
 export default unverifiedSlice.reducer;
